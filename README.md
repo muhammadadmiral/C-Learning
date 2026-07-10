@@ -18,96 +18,6 @@ Repo ini adalah kurikulum belajar C yang disusun berurutan dari nol sampai bisa 
 
 Setiap folder = satu modul, isinya penjelasan konsep + kode contoh + latihan + jawaban. Ikutin urutannya dari 001, jangan loncat-loncat kecuali udah yakin paham prasyaratnya.
 
----
-
-## 🤖 Panduan Khusus untuk AI Agent (Content Generator)
-
-> Bagian ini **wajib dibaca dan dipatuhi** setiap kali agent diminta men-generate materi untuk salah satu modul di roadmap. Tujuannya: memastikan semua modul, walau digenerate di sesi terpisah, tetap konsisten satu sama lain.
-
-### 1. Struktur folder & file wajib per modul
-
-```
-0XX-nama-modul/
-├── README.md              # Penjelasan konsep (lihat template di bawah)
-├── main.c                  # Kode contoh, siap compile & run, well-commented
-├── exercise.c               # Soal latihan (skeleton + TODO), TANPA jawaban
-├── exercise_answer.c         # Jawaban lengkap dari exercise.c
-├── Makefile                 # Mulai wajib ada dari modul 010 (Header & Modular)
-└── notes.md                  # (opsional) catatan tambahan / FAQ / gotcha
-```
-
-- Folder pakai format `0XX-kebab-case-nama-modul`, contoh: `001-pengenalan-c`, `013-struct-dasar`.
-- Semua nama file, variabel, fungsi pakai `snake_case`. Nama tipe custom (struct/typedef) pakai `PascalCase` atau `snake_case_t` — **pilih satu, konsisten di seluruh repo** (rekomendasi: `snake_case_t`, contoh `point_t`, `node_t`).
-
-### 2. Template `README.md` per modul
-
-Setiap modul **wajib** punya README dengan struktur berikut (agent mengisi, bukan mengubah urutan):
-
-```markdown
-# 0XX — [Judul Modul]
-
-**Fase:** [nomor & nama fase] | **Prasyarat:** [modul sebelumnya] | **Estimasi waktu:** [X jam]
-
-## 🎯 Tujuan Belajar
-- Bullet list, 3-5 poin, actionable ("Bisa menjelaskan...", "Bisa menulis...", "Bisa membedakan...")
-
-## 📖 Konsep Inti
-- Daftar sub-topik yang dibahas (jadi outline buat main.c)
-
-## ⚠️ Perangkap Umum (Common Pitfalls)
-- Minimal 2-3 kesalahan klasik pemula terkait topik ini, disertai contoh singkat kenapa itu salah
-
-## 💻 Cara Menjalankan
-(snippet compile command sesuai OS, konsisten dengan bagian "Cara Compile & Run" di root README)
-
-## 📝 Latihan
-- Ringkasan level exercise (lihat poin 3 di bawah)
-
-## 🔗 Lanjut ke
-- Link ke modul berikutnya
-```
-
-### 3. Standar exercise.c (WAJIB 3 tingkat kesulitan)
-
-Setiap `exercise.c` harus punya minimal **3 soal** dengan tingkat berbeda, ditandai jelas dalam komentar:
-
-```c
-// ============================================
-// LEVEL 1: EASY — [deskripsi singkat]
-// ============================================
-// TODO: ...
-
-// ============================================
-// LEVEL 2: MEDIUM — [deskripsi singkat]
-// ============================================
-// TODO: ...
-
-// ============================================
-// LEVEL 3: HARD / CHALLENGE — [deskripsi singkat, boleh gabungin konsep modul sebelumnya]
-// ============================================
-// TODO: ...
-```
-
-Level 3 idealnya **menggabungkan** konsep modul ini dengan minimal satu konsep dari modul sebelumnya (reinforcement, bukan topik lepas-lepas).
-
-### 4. Standar kode & komentar
-
-- **Compiler flags wajib** disebutkan di setiap README: `gcc -std=c17 -Wall -Wextra -Wpedantic -o program main.c`
-- Mulai modul **017 (Dynamic Memory)** ke atas, wajib sebutkan cara pakai **sanitizer**: `gcc -std=c17 -fsanitize=address,undefined -g -o program main.c` dan/atau `valgrind --leak-check=full ./program`
-- Komentar kode: **Bahasa Indonesia untuk penjelasan konsep**, tapi istilah teknis tetap bahasa Inggris asli (jangan diterjemahkan paksa: "pointer", "heap", "stack", "buffer overflow", dst tetap disebut aslinya).
-- Setiap konsep baru **wajib** disertai analogi dunia nyata sebelum masuk ke sintaks (gaya penjelasan "kenapa", bukan cuma "bagaimana").
-- Semua contoh kode di `main.c` harus benar-benar bisa di-compile tanpa warning dengan flags di atas — agent harus "mental-compile" sebelum menganggap modul selesai.
-- Dilarang pakai fungsi *deprecated/unsafe* tanpa penjelasan eksplisit (contoh: kalau kepaksa pakai `gets()` untuk demo kenapa itu bahaya, harus dijelaskan dan langsung dikontraskan dengan alternatif aman seperti `fgets()`).
-
-### 5. Aturan urutan dependensi (PENTING)
-
-Agent **dilarang** memperkenalkan konsep yang belum diajarkan di modul sebelumnya. Contoh: jangan pakai `struct` di modul 009 (Function) kalau struct baru diajarkan di modul 013. Kalau butuh, cek daftar "Konsep Inti" modul-modul sebelumnya dulu sebagai referensi dependensi.
-
-### 6. Bahasa & tone
-
-Tone penjelasan: santai tapi teknikal presisi, seperti mentor senior ngobrol sama mentee — boleh pakai "lu/lo", hindari terlalu formal/kaku ala textbook terjemahan.
-
----
 
 ## 📋 Cara Belajar
 
@@ -119,12 +29,30 @@ Tone penjelasan: santai tapi teknikal presisi, seperti mentor senior ngobrol sam
 
 ### Cara Compile & Run
 
-#### macOS / Linux (Terminal)
+#### macOS (Terminal)
 ```bash
-# Install compiler (macOS)
+# Install Xcode Command Line Tools (ini yang nyediain compiler)
 xcode-select --install
 
-# Install compiler (Linux/Ubuntu)
+# PENTING: di macOS, command "gcc" itu sebenernya cuma alias ke Apple Clang,
+# BUKAN GCC asli. Cek sendiri:
+gcc --version   # bakal muncul "Apple clang version ..."
+
+# Buat kebanyakan kebutuhan belajar, ini gapapa banget, kompatibel.
+# Compile (standar wajib dipakai di seluruh repo)
+gcc -std=c17 -Wall -Wextra -Wpedantic -o program main.c
+# atau eksplisit pake clang langsung, hasilnya sama:
+clang -std=c17 -Wall -Wextra -Wpedantic -o program main.c
+
+# Run
+./program
+```
+
+> Kalau lu emang butuh GCC asli di macOS (misal buat fitur GNU-specific), install lewat Homebrew: `brew install gcc` — nanti kepanggil sebagai `gcc-14` (atau versi lain), bukan `gcc` biasa.
+
+#### Linux (Terminal)
+```bash
+# Install compiler
 sudo apt install gcc
 
 # Compile (standar wajib dipakai di seluruh repo)
@@ -146,7 +74,7 @@ gcc -std=c17 -Wall -Wextra -Wpedantic -o program.exe main.c
 .\program.exe
 ```
 
-> **Flag `-Wall -Wextra -Wpedantic`** wajib dipakai di semua modul. Mulai modul Dynamic Memory, tambahkan `-fsanitize=address,undefined -g` untuk deteksi memory bug secara otomatis.
+> **Flag `-Wall -Wextra -Wpedantic`** wajib dipakai di semua modul, di semua OS. Mulai modul Dynamic Memory, tambahin `-fsanitize=address,undefined -g` buat deteksi memory bug otomatis.
 
 ---
 
@@ -242,4 +170,4 @@ Repo ini terbuka untuk kontribusi — kalau nemu typo, bug di kode contoh, atau 
 
 ---
 
-*Semangat belajar, semuanya!. 💪*
+*Semangat belajar! Konsisten itu lebih penting daripada ngebut — pelan-pelan asal paham. 💪*
