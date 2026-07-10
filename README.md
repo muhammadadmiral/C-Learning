@@ -3,7 +3,20 @@
 > **Tujuan:** Menguasai bahasa C secara menyeluruh — dari fundamental hingga advanced — sebagai fondasi kuat untuk programming career dan transisi ke C++.
 > **Platform:** Cross-platform (macOS Terminal / Windows CMD-PowerShell / Linux Terminal)
 > **Standar Bahasa:** C17 (ISO/IEC 9899:2018)
-> **Author:** Admiral
+> **Untuk siapa:** Siapa aja yang mau belajar C dari nol — nggak perlu background CS, cukup modal niat dan terminal
+
+---
+
+## 👋 Tentang Repo Ini
+
+Repo ini adalah kurikulum belajar C yang disusun berurutan dari nol sampai bisa bikin project modular sendiri. Cocok buat:
+
+- Pemula total yang belum pernah nulis kode C sama sekali
+- Yang udah bisa bahasa lain (Python/JS/dll) dan mau paham C sebagai jembatan ke systems programming / C++
+- Mahasiswa yang butuh materi pendamping mata kuliah Algoritma/Struktur Data/Sistem Operasi
+- Siapapun yang mau serius belajar pointer & memory management, bukan cuma hafal sintaks
+
+Setiap folder = satu modul, isinya penjelasan konsep + kode contoh + latihan + jawaban. Ikutin urutannya dari 001, jangan loncat-loncat kecuali udah yakin paham prasyaratnya.
 
 ---
 
@@ -229,4 +242,4 @@ Repo ini terbuka untuk kontribusi — kalau nemu typo, bug di kode contoh, atau 
 
 ---
 
-*Semangat belajar, Semuanya! 💪*
+*Semangat belajar, semuanya!. 💪*
